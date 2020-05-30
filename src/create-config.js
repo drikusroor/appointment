@@ -2,7 +2,7 @@ const moment = require("moment");
 
 module.exports = function (config) {
   const {
-    eventLength = { unit: "minutes", amount: 60 },
+    appointmentLength = { unit: "minutes", amount: 60 },
     constraints = [
       { type: "period", unit: "hours", min: 9, max: 18 },
       { type: "weekdays", values: [1, 2, 3, 4, 5] },
@@ -16,7 +16,7 @@ module.exports = function (config) {
 
   return {
     ...config,
-    eventLength,
+    appointmentLength,
     clientIdentifier,
     constraints,
     endDate,

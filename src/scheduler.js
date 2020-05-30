@@ -1,37 +1,41 @@
 const moment = require("moment");
-const needsEvent = require("./needs-event");
+const needsAppointment = require("./needs-appointment");
 
 module.exports = function (clients, config) {
   const { endDate, clientIdentifier, startDate, tick } = config;
 
   let currentDate = startDate;
   let currentClients = clients;
-  let events = [];
+  let appointments = [];
 
   while (moment(currentDate).isBefore(moment(endDate))) {
-    isAvailable = !events.some(
-      (event) =>
-        moment(event.start).isBefore(moment(currentDate)) &&
-        moment(event.end).isAfter(moment(currentDate))
+    isAvailable = !appointments.some(
+      (appointment) =>
+        moment(appointment.start).isBefore(moment(currentDate)) &&
+        moment(appointment.end).isAfter(moment(currentDate))
     );
 
     const client = currentClients.find((client) =>
-      needsEvent(client, config, currentDate)
+      needsAppointment(client, config, currentDate)
     );
 
     if (isAvailable && client) {
-      const eventLength = client.eventLength || config.eventLength;
+      const appointmentLength =
+        client.appointmentLength || config.appointmentLength;
       const start = currentDate;
-      const end = moment(currentDate).add(eventLength.amount, eventLength.unit);
+      const end = moment(currentDate).add(
+        appointmentLength.amount,
+        appointmentLength.unit
+      );
       clientIdentifier;
-      events.push({
-        name: `Event for ${client[clientIdentifier]}`,
+      appointments.push({
+        name: `Appointment for ${client[clientIdentifier]}`,
         start,
         end,
       });
       currentClients = currentClients.map((cClient) => {
         if (cClient[clientIdentifier] === client[clientIdentifier]) {
-          cClient.lastEvent = currentDate;
+          cClient.lastAppointment = currentDate;
         }
         return cClient;
       });
@@ -40,5 +44,5 @@ module.exports = function (clients, config) {
     currentDate = moment(currentDate).add(tick.amount, tick.unit);
   }
 
-  return events;
+  return appointments;
 };

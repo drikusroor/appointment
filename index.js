@@ -1,3 +1,3 @@
-const planEvents = require("./src/plan-events");
+const planAppointments = require("./src/plan-appointments");
 
-exports.planEvents = planEvents;
+exports.planAppointments = planAppointments;

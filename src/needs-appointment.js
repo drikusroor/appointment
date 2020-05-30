@@ -22,21 +22,21 @@ function isWithinConstraint(constraint, dateObject) {
   }
 }
 
-module.exports = function (clientConfig, userConfig, eventStartDate) {
+module.exports = function (clientConfig, userConfig, appointmentStartDate) {
   const {
     constraints: clientConstraints = [],
-    eventLength: clientEventLength,
-    lastEvent,
+    appointmentLength: clientAppointmentLength,
+    lastAppointment,
     repeatAfter,
   } = clientConfig;
   const {
     constraints: userConstraints = [],
-    eventLength: userEventLength,
+    appointmentLength: userAppointmentLength,
   } = userConfig;
 
   // Check if client already needs a new appointment
-  const difference = moment(eventStartDate).diff(
-    moment(lastEvent),
+  const difference = moment(appointmentStartDate).diff(
+    moment(lastAppointment),
     repeatAfter.unit
   );
 
@@ -45,19 +45,19 @@ module.exports = function (clientConfig, userConfig, eventStartDate) {
   }
 
   const constraints = [...clientConstraints, ...userConstraints];
-  const eventLength = clientEventLength || userEventLength;
-  const eventEndDate = moment(eventStartDate).add(
-    eventLength.amount,
-    eventLength.unit
+  const appointmentLength = clientAppointmentLength || userAppointmentLength;
+  const appointmentEndDate = moment(appointmentStartDate).add(
+    appointmentLength.amount,
+    appointmentLength.unit
   );
 
   // Check if appointment start and end date falls within user's and client's constraints
   if (constraints) {
     const startNotWithinConstraints = constraints.some(
-      (constraint) => !isWithinConstraint(constraint, eventStartDate)
+      (constraint) => !isWithinConstraint(constraint, appointmentStartDate)
     );
     const endNotWithinConstraints = constraints.some(
-      (constraint) => !isWithinConstraint(constraint, eventEndDate)
+      (constraint) => !isWithinConstraint(constraint, appointmentEndDate)
     );
     if (startNotWithinConstraints || endNotWithinConstraints) {
       return false;

@@ -1,13 +1,17 @@
 {
   "name": "appointment",
-  "version": "0.0.1",
+  "description": "A node module that helps with planning appointments for clients",
+  "version": "0.0.2",
   "main": "index.js",
-  "author": "Drikus Roor",
+  "author": "Drikus Roor <drikusroor@gmail.com> (https://github.com/drikusroor)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drikusroor/appointment"
+  },
   "license": "MIT",
   "dependencies": {
     "csv-writer": "^1.6.0",
-    "moment": "^2.26.0",
-    "periodic": "^0.0.2"
+    "moment": "^2.26.0"
   },
   "scripts": {
     "test": "node test.js"
