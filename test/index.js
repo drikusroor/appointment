@@ -1,6 +1,6 @@
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 const moment = require("moment");
-const { planAppointments } = require("../index");
+const { planAppointments } = require("appointment");
 
 const clients = [
   {
